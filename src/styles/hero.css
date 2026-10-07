@@ -1,0 +1,330 @@
+/*
+ * Hero.
+ *
+ * Regra que não pode quebrar: o logotipo da foto nunca é cortado.
+ *  - Tela larga: a foto 16:9 ocupa a altura toda e encosta na direita. O que
+ *    sobra para fora é o lado esquerdo, que é só ambiente. O texto fica na
+ *    faixa livre à esquerda do logo.
+ *  - Tela em pé: a foto 9:16 fica no topo, com largura limitada para o logo
+ *    terminar perto do meio da tela. O texto entra logo abaixo dele.
+ */
+@layer components {
+  .hero {
+    --foto-l: min(100vw, 52svh); /* largura da foto em pé */
+    position: relative;
+    isolation: isolate;
+    min-height: 100svh;
+    overflow: clip;
+    background: var(--color-preto);
+  }
+
+  .hero-fundo,
+  .hero-veu,
+  .hero-sombra {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-fundo {
+    z-index: -3;
+  }
+  .hero-quadro {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 30%;
+    will-change: transform;
+  }
+
+  .hero-img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--foto-l);
+    max-width: none;
+    height: auto;
+    translate: -50% 0;
+    user-select: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 99%);
+    mask-image: linear-gradient(180deg, #000 72%, transparent 99%);
+  }
+
+  /* Quando a tela é mais larga que a foto em pé, as laterais somem em degradê. */
+  @media (min-aspect-ratio: 55/100) {
+    .hero-img {
+      -webkit-mask-image:
+        linear-gradient(180deg, #000 72%, transparent 99%),
+        linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(180deg, #000 72%, transparent 99%),
+        linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+      mask-composite: intersect;
+    }
+  }
+
+  .hero-veu {
+    z-index: -2;
+    background: linear-gradient(180deg, transparent 52%, rgb(0 0 0 / 0.9) 88%, #000 100%);
+  }
+  .hero-sombra {
+    z-index: -1;
+    background: #000;
+    opacity: 0;
+  }
+  .hero-poeira {
+    z-index: -1;
+    opacity: 0.8;
+  }
+
+  .hero-conteudo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100svh;
+    /* o logo termina em 55,3% da altura da foto; o texto começa logo depois */
+    padding-top: calc(var(--foto-l) * 1.012);
+    padding-bottom: max(28px, env(safe-area-inset-bottom) + 20px);
+  }
+
+  .hero-coluna {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hero-titulo {
+    width: 100%;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 58%;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.006em;
+    /* calibrado para a linha mais longa ocupar a largura da coluna */
+    font-size: clamp(2.25rem, 15.5cqi, 9.75rem);
+    white-space: nowrap;
+  }
+  .hero-linha {
+    display: block;
+    overflow: clip;
+    padding: 0.17em 0.12em 0.05em 0.04em;
+    margin: -0.17em -0.12em -0.05em -0.04em;
+  }
+  .hero-texto {
+    position: relative;
+    display: inline-block;
+    color: var(--color-osso);
+    will-change: transform;
+  }
+  .hero-amarelo {
+    color: var(--color-amarelo);
+  }
+
+  /* Falha rápida no título, uma vez só, quando ele assenta. */
+  .hero-texto[data-glitch]::before,
+  .hero-texto[data-glitch]::after {
+    content: attr(data-texto);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero-texto[data-glitch]::before {
+    color: #fff;
+    animation: falha-a 0.5s steps(2, jump-none) both;
+  }
+  .hero-texto[data-glitch]::after {
+    color: var(--color-luz);
+    animation: falha-b 0.5s steps(2, jump-none) both;
+  }
+  @keyframes falha-a {
+    0% {
+      clip-path: inset(8% 0 62% 0);
+      translate: -0.05em 0;
+    }
+    35% {
+      clip-path: inset(58% 0 14% 0);
+      translate: 0.04em 0;
+    }
+    70% {
+      clip-path: inset(30% 0 44% 0);
+      translate: -0.025em 0;
+    }
+    100% {
+      clip-path: inset(50% 0 50% 0);
+      translate: 0 0;
+    }
+  }
+  @keyframes falha-b {
+    0% {
+      clip-path: inset(66% 0 6% 0);
+      translate: 0.06em 0;
+    }
+    40% {
+      clip-path: inset(14% 0 70% 0);
+      translate: -0.045em 0;
+    }
+    75% {
+      clip-path: inset(44% 0 34% 0);
+      translate: 0.02em 0;
+    }
+    100% {
+      clip-path: inset(50% 0 50% 0);
+      translate: 0 0;
+    }
+  }
+
+  .hero-apoio {
+    margin-top: clamp(12px, 2.2svh, 22px);
+    max-width: 34ch;
+    color: #b9b5ad;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .hero-apoio-extra {
+    display: none;
+  }
+
+  .hero-acoes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: clamp(14px, 2.4svh, 26px);
+  }
+  .hero-acoes .btn {
+    width: 100%;
+    height: 54px;
+  }
+
+  .hero-proxima {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 10px;
+    margin-top: clamp(10px, 1.8svh, 22px);
+    padding: 6px 4px;
+    font-family: var(--font-display);
+    font-stretch: 94%;
+    font-size: 0.875rem;
+    line-height: 1.2;
+  }
+  .hero-proxima-rotulo {
+    color: var(--color-fumo);
+    font-weight: 500;
+  }
+  .hero-proxima-valor {
+    color: var(--color-osso);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: rgb(253 208 3 / 0.55);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    transition: text-decoration-color 0.3s;
+  }
+  .hero-proxima:hover .hero-proxima-valor {
+    text-decoration-color: var(--color-amarelo);
+  }
+  .hero-pulso {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-amarelo);
+  }
+  .hero-pulso::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--color-amarelo);
+    animation: pulso 2.2s var(--ease-saida) infinite;
+  }
+  @keyframes pulso {
+    from {
+      scale: 1;
+      opacity: 0.7;
+    }
+    to {
+      scale: 3.4;
+      opacity: 0;
+    }
+  }
+
+  /* ---------- Tela larga ---------- */
+  @media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+    .hero-quadro {
+      transform-origin: 72% 50%;
+    }
+    .hero-img {
+      top: 0;
+      right: 0;
+      left: auto;
+      width: auto;
+      height: 100%;
+      translate: none;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .hero-veu {
+      background:
+        linear-gradient(180deg, transparent 90%, #000 100%),
+        linear-gradient(90deg, rgb(0 0 0 / 0.62), rgb(0 0 0 / 0.2) 38%, transparent 56%);
+    }
+
+    .hero-conteudo {
+      justify-content: center;
+      padding-top: calc(var(--barra) + 24px);
+      padding-bottom: clamp(40px, 9svh, 110px);
+    }
+    .hero-coluna {
+      align-items: flex-start;
+      /* largura livre à esquerda do logo: a foto tem 177,78svh e o logo começa em 51% dela */
+      max-width: min(calc(100vw - 87.2svh - var(--margem) - 28px), 52rem);
+      margin-inline: 0;
+      text-align: left;
+    }
+    .hero-apoio-extra {
+      display: inline;
+    }
+    .hero-apoio {
+      max-width: 44ch;
+      margin-top: clamp(18px, 3svh, 30px);
+      font-size: clamp(1rem, 0.9rem + 0.35vw, 1.1875rem);
+      line-height: 1.55;
+    }
+    .hero-acoes {
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: auto;
+      gap: 12px;
+      margin-top: clamp(22px, 3.6svh, 38px);
+    }
+    .hero-acoes .btn {
+      width: auto;
+      height: 64px;
+    }
+    .hero-proxima {
+      justify-content: flex-start;
+      margin-top: clamp(20px, 3.4svh, 36px);
+      padding-inline: 0;
+      font-size: 0.9375rem;
+    }
+  }
+
+  /* Tela mais larga que a foto: a borda esquerda da foto some em degradê. */
+  @media (min-width: 900px) and (min-aspect-ratio: 16/9) {
+    .hero-img {
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%);
+      mask-image: linear-gradient(90deg, transparent, #000 16%);
+    }
+  }
+}

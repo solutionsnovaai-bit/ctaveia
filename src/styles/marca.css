@@ -1,0 +1,191 @@
+/*
+ * Cards de marca. Cada um mostra o logo do CT em um acabamento diferente.
+ * As medidas internas usam cqi (largura do próprio card), então o card
+ * funciona igual pequeno no carrossel ou grande dentro de uma seção.
+ */
+@layer components {
+  .marca {
+    --tinta: var(--color-osso);
+    position: relative;
+    isolation: isolate;
+    container-type: inline-size;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #050505;
+    box-shadow:
+      inset 0 0 0 1px var(--fio),
+      inset 0 1px 0 rgb(255 255 255 / 0.1);
+    color: var(--tinta);
+    user-select: none;
+  }
+
+  /* Fundo de cada acabamento (num pseudo-elemento para poder usar cqi). */
+  .marca::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .marca-arte {
+    width: 62cqi;
+    height: auto;
+    filter: drop-shadow(0 6cqi 7cqi rgb(0 0 0 / 0.55));
+  }
+  .marca-arte-alta {
+    width: 58cqi;
+  }
+  .marca-arte-larga {
+    width: 92cqi;
+    filter: none;
+  }
+  .marca-arte-menor {
+    width: 46cqi;
+  }
+  /* Com frase, a arte sobe para abrir espaço na base. */
+  .marca[data-frase='true'] > :first-child {
+    translate: 0 -11cqi;
+  }
+
+  .marca-texto {
+    position: absolute;
+    right: 7cqi;
+    bottom: 6.5cqi;
+    left: 7cqi;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 62%;
+    font-size: 9.2cqi;
+    line-height: 0.95;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  /* Brilho que atravessa o card. No carrossel ele acompanha o giro (--giro). */
+  .marca-brilho {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: linear-gradient(
+        112deg,
+        transparent 34%,
+        rgb(255 255 255 / 0.16) 47%,
+        rgb(255 255 255 / 0.03) 55%,
+        transparent 68%
+      )
+      no-repeat calc(50% + var(--giro, 0) * 70%) 0 / 240% 100%;
+    pointer-events: none;
+  }
+
+  /* ---------- Acabamentos ---------- */
+
+  /* Preto com a trama do kimono e um halo dourado atrás da peça. */
+  .marca-ouro::before,
+  .marca-completo::before,
+  .marca-faixa::before {
+    background:
+      radial-gradient(58% 44% at 50% 40%, rgb(253 208 3 / 0.2), transparent 72%),
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 4px),
+      repeating-linear-gradient(0deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 4px),
+      #050505;
+  }
+
+  .marca-amarelo,
+  .marca-tinta {
+    --tinta: #0a0a09;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
+  }
+  .marca-amarelo::before,
+  .marca-tinta::before {
+    background:
+      radial-gradient(90% 70% at 18% 0%, #ffe45a, transparent 62%), var(--color-amarelo);
+  }
+  .marca-amarelo .marca-arte,
+  .marca-tinta .marca-arte {
+    filter: none;
+  }
+
+  .marca-contorno::before {
+    background:
+      radial-gradient(70% 50% at 50% 45%, rgb(253 208 3 / 0.09), transparent 70%), var(--color-kimono);
+  }
+
+  .marca-padrao::before {
+    background: var(--color-tatame);
+  }
+  .marca-grade {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5.2cqi 4.6cqi;
+    width: 78cqi;
+  }
+  .marca-grade svg {
+    width: 100%;
+    height: auto;
+    color: #262624;
+  }
+  .marca-grade svg[data-aceso='true'] {
+    color: var(--color-amarelo);
+    filter: drop-shadow(0 0 4cqi rgb(253 208 3 / 0.5));
+  }
+  .marca-padrao[data-frase='true'] .marca-grade {
+    width: 68cqi;
+  }
+
+  .marca-faixa .marca-faixa {
+    --h: 13cqi;
+    position: absolute;
+    right: -12cqi;
+    bottom: 38cqi;
+    left: -12cqi;
+    rotate: -8deg;
+  }
+  .marca-faixa[data-frase='true'] > :first-child {
+    translate: 0 -22cqi;
+  }
+  .marca-faixa:not([data-frase='true']) > :first-child {
+    translate: 0 -14cqi;
+  }
+  .marca-faixa:not([data-frase='true']) .marca-faixa {
+    bottom: 24cqi;
+  }
+
+  /* Listras no ângulo do triângulo, com o símbolo numa placa preta. */
+  .marca-listras::before {
+    background: repeating-linear-gradient(
+      119deg,
+      var(--color-amarelo) 0 8cqi,
+      #0a0a09 8cqi 16cqi
+    );
+  }
+  .marca-placa {
+    display: grid;
+    place-items: center;
+    width: 64cqi;
+    aspect-ratio: 1;
+    border-radius: 15cqi;
+    background: #000;
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.12),
+      0 8cqi 12cqi -4cqi rgb(0 0 0 / 0.7);
+  }
+  .marca-placa svg {
+    width: 62%;
+    height: auto;
+    color: var(--color-amarelo);
+    translate: 0 -3%;
+  }
+  .marca-listras .marca-texto {
+    right: 5cqi;
+    bottom: 5cqi;
+    left: 5cqi;
+    padding: 3.4cqi 4cqi 2.8cqi;
+    border-radius: 4.5cqi;
+    background: #000;
+    color: var(--color-amarelo);
+  }
+}

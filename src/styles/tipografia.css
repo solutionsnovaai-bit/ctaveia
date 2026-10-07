@@ -1,0 +1,92 @@
+/*
+ * Duas famílias, com papéis que não se misturam:
+ *  - Saira: a voz do CT. Condensada, pesada e inclinada nos títulos, como nas
+ *    artes da academia; reta e mais aberta em botões, rótulos e números.
+ *  - Geist: texto corrido, calmo, para ler sem esforço.
+ * A Saira é variável em largura, então um título pode abrir e fechar.
+ */
+@layer components {
+  .t-mega,
+  .t-titulo,
+  .t-grito {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 62%;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.008em;
+    text-wrap: balance;
+  }
+
+  /* Hero e fechamento. */
+  .t-mega {
+    font-size: clamp(3.25rem, 2rem + 8.2vw, 10.5rem);
+  }
+
+  /* Título de seção. */
+  .t-titulo {
+    font-size: clamp(2.75rem, 1.6rem + 5.6vw, 7rem);
+  }
+
+  /* Nome de modalidade, valor da faixa: uma palavra ocupando o que der. */
+  .t-grito {
+    font-size: clamp(3.5rem, 1.4rem + 10.5vw, 12rem);
+    font-stretch: 56%;
+    line-height: 0.84;
+  }
+
+  .t-chamada {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-stretch: 84%;
+    font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2.125rem);
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+
+  .t-rotulo {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-stretch: 94%;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    letter-spacing: 0.012em;
+  }
+
+  .t-corpo {
+    font-size: clamp(1rem, 0.96rem + 0.25vw, 1.125rem);
+    line-height: 1.6;
+    color: var(--color-fumo);
+    max-width: 58ch;
+    text-wrap: pretty;
+  }
+
+  .t-num {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 72%;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  /*
+   * Linhas quebradas pelo SplitText. A máscara corta o que passa da caixa,
+   * então ela ganha folga em cima (acentos de Ã, Í, Ç em caixa alta) e do
+   * lado direito (a última letra inclinada), devolvida com margem negativa.
+   */
+  .linha-mask {
+    padding: 0.16em 0.14em 0.06em 0.04em;
+    margin: -0.16em -0.14em -0.06em -0.04em;
+  }
+  .linha {
+    will-change: transform;
+  }
+
+  /* Cada palavra do manifesto acende conforme a rolagem passa por ela. */
+  .palavra {
+    display: inline-block;
+  }
+}
