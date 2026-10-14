@@ -41,13 +41,14 @@ export function Horarios() {
   const visivel = useVisivel(raiz, '200px')
   const agora = useAgora(1000, visivel)
   const { dia: hoje, minutos } = agoraNoCT(agora)
-  const temAulaHoje = hoje <= 5
+  const temAulaHoje = DIAS.some((d) => d.id === hoje)
 
   const [dia, setDia] = useState(temAulaHoje ? hoje : 1)
   const [grupo, setGrupo] = useState('todas')
 
   const aulas = useMemo(() => aulasDoDia(dia, grupo), [dia, grupo])
   const nomeDoDia = DIAS.find((d) => d.id === dia).nome
+  const naDia = dia === 6 ? 'no' : 'na'
   const nomeDoGrupo = GRUPOS.find((g) => g.id === grupo).rotulo.toLowerCase()
 
   // Quando o filtro esvazia o dia, o site aponta os dias que têm aquela turma.
@@ -63,7 +64,7 @@ export function Horarios() {
           <div>
             <Titulo className="t-titulo">Tabela de horários</Titulo>
             <p className="hor-apoio">
-              De segunda a sexta, de manhã cedo até a noite. Toque em uma aula para pedir a sua vaga.
+              De segunda a sexta, de manhã cedo até a noite, e jiu-jítsu no sábado de manhã. Toque em uma aula para pedir a sua vaga.
             </p>
           </div>
           <Proxima agora={agora} />
@@ -123,7 +124,7 @@ export function Horarios() {
         ) : (
           <div className="hor-vazio" key={`${dia}-${grupo}-vazio`}>
             <p>
-              Não tem aula de {nomeDoGrupo} na {nomeDoDia.toLowerCase()}. Essa turma treina em outros dias:
+              Não tem aula de {nomeDoGrupo} {naDia} {nomeDoDia.toLowerCase()}. Essa turma treina em outros dias:
             </p>
             <div className="hor-vazio-dias">
               {diasComAula.map((d) => (
