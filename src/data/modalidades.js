@@ -10,6 +10,7 @@ export const modalidades = [
     pontos: ['Turmas de adulto e de criança', 'Aula de manhã, no almoço e à noite', 'Do primeiro treino à faixa preta'],
     grupos: ['jiu-jitsu', 'kids'],
     card: 'ouro',
+    foto: { src: 'raca', alt: 'Atleta do CT Aveia de quimono azul comemorando depois da luta', foco: '50% 30%' },
   },
   {
     id: 'muay-thai',
@@ -19,6 +20,7 @@ export const modalidades = [
     grupos: ['thai-mma'],
     turnos: true,
     card: 'listras',
+    foto: { src: 'muay-thai', alt: 'Turma de muay thai e boxe do CT Aveia em posição de guarda', foco: '86% 45%' },
   },
   {
     id: 'boxe',
@@ -36,6 +38,7 @@ export const modalidades = [
     pontos: ['Trocação, queda e solo', 'Treina junto com o muay thai', 'Terça e quinta, cedo ou à noite'],
     grupos: ['thai-mma'],
     card: 'contorno',
+    foto: { src: 'vitoria-nogi', alt: 'Atleta do CT Aveia com o braço erguido pelo árbitro depois de vencer', foco: '42% 35%' },
   },
   {
     id: 'preparacao-fisica',

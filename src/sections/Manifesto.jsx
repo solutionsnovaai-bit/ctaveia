@@ -4,7 +4,8 @@ import { irPara } from '../lib/scroll'
 import { useCena } from '../hooks/useCena'
 import { manifesto } from '../data/conteudo'
 import { Titulo } from '../components/ui/Titulo'
-import { CardMarca } from '../components/ui/CardMarca'
+import { Foto } from '../components/ui/Foto'
+import { revelarFotos } from '../lib/revelar'
 import { Botao } from '../components/ui/Botao'
 
 export function Manifesto() {
@@ -26,13 +27,8 @@ export function Manifesto() {
       },
     )
 
-    // O card do escudo abre de baixo para cima.
-    gsap.from('.manifesto-card', {
-      clipPath: 'inset(100% 0% 0% 0% round 26px)',
-      duration: 1.5,
-      ease: 'pesado',
-      scrollTrigger: { trigger: '.manifesto-card', start: 'top 84%', once: true },
-    })
+    // A foto da família abre com a cortina amarela.
+    revelarFotos('.manifesto-card')
   }, raiz)
 
   return (
@@ -54,7 +50,13 @@ export function Manifesto() {
           </p>
 
           <div className="manifesto-lado">
-            <CardMarca variante="completo" className="manifesto-card" />
+            <Foto
+              src="familia-completa"
+              alt="Alunos adultos e crianças do CT Aveia reunidos no tatame"
+              legenda="Juntos somos mais fortes"
+              foco="50% 62%"
+              className="manifesto-card"
+            />
             <p className="t-corpo">{manifesto.apoio}</p>
             <Botao
               href="#modalidades"

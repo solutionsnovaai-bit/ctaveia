@@ -8,6 +8,8 @@ import { modalidades } from '../data/modalidades'
 import { site } from '../data/site'
 import { Titulo } from '../components/ui/Titulo'
 import { CardMarca } from '../components/ui/CardMarca'
+import { Foto } from '../components/ui/Foto'
+import { revelarFotos } from '../lib/revelar'
 import { Botao } from '../components/ui/Botao'
 import { IconeCanal, IconeCheck } from '../components/ui/Icones'
 
@@ -80,7 +82,11 @@ function Cartao({ modalidade, indice, total }) {
 
       <div className="mod-lado">
         <div className="mod-quadro" ref={quadro}>
-          <CardMarca variante={modalidade.card} className="mod-card" />
+          {modalidade.foto ? (
+            <Foto src={modalidade.foto.src} alt={modalidade.foto.alt} foco={modalidade.foto.foco} className="mod-card mod-foto" />
+          ) : (
+            <CardMarca variante={modalidade.card} className="mod-card" />
+          )}
         </div>
       </div>
       <span className="mod-apaga" aria-hidden="true" />
@@ -94,6 +100,7 @@ export function Modalidades() {
   useCena(() => {
     if (movimentoReduzido()) return
     const cartoes = gsap.utils.toArray('.mod')
+    revelarFotos('.mod-foto', { inicio: 'top 78%', parallax: 6 })
 
     ScrollTrigger.matchMedia({
       // Telas grandes: os cartões empilham. O de baixo recua e escurece

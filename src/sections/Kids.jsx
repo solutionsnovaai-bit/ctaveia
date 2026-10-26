@@ -5,7 +5,8 @@ import { horariosDoGrupo } from '../lib/agenda'
 import { useCena } from '../hooks/useCena'
 import { kids } from '../data/conteudo'
 import { Titulo } from '../components/ui/Titulo'
-import { CardMarca } from '../components/ui/CardMarca'
+import { Foto } from '../components/ui/Foto'
+import { revelarFotos } from '../lib/revelar'
 import { Botao } from '../components/ui/Botao'
 import { IconeCanal, IconeRelogio } from '../components/ui/Icones'
 
@@ -36,18 +37,19 @@ export function Kids() {
       scrollTrigger: { trigger: '.kids-faixas', start: 'top 82%', once: true },
     })
 
-    gsap.from('.kids-card', {
-      clipPath: 'inset(0% 100% 0% 0% round 26px)',
-      duration: 1.5,
-      ease: 'pesado',
-      scrollTrigger: { trigger: '.kids-card', start: 'top 82%', once: true },
-    })
+    revelarFotos('.kids-card')
   }, raiz)
 
   return (
     <section id="kids" className="kids" ref={raiz}>
       <div className="conteudo kids-grade">
-        <CardMarca variante="amarelo" className="kids-card" />
+        <Foto
+          src="kids-professor"
+          alt="Professor faixa preta ensinando um aluno do Projeto Kids no tatame"
+          legenda="Projeto Kids"
+          foco="55% 55%"
+          className="kids-card"
+        />
 
         <div className="kids-texto">
           <Titulo className="t-titulo">{kids.titulo}</Titulo>

@@ -318,3 +318,85 @@
     }
   }
 }
+@layer components {
+  /* ---------- Foto real com cortina ---------- */
+  .foto {
+    position: relative;
+    isolation: isolate;
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #0b0b0a;
+  }
+  .foto-mascara {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+  /* A imagem sobra em cima e embaixo: é a folga do parallax. */
+  .foto-img {
+    position: absolute;
+    left: 0;
+    top: -11%;
+    width: 100%;
+    height: 122%;
+    object-fit: cover;
+    filter: saturate(0.92) contrast(1.06);
+    will-change: transform;
+    transition:
+      scale 0.9s var(--ease-saida),
+      filter 0.6s var(--ease-saida);
+  }
+  .foto-mascara::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 52%, rgb(0 0 0 / 0.78));
+    pointer-events: none;
+  }
+  .foto::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.09);
+    pointer-events: none;
+  }
+  .foto-cortina {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--color-amarelo);
+    transform: scaleY(0);
+    pointer-events: none;
+  }
+  .foto-legenda {
+    position: absolute;
+    left: clamp(14px, 1.6vw, 22px);
+    bottom: clamp(12px, 1.5vw, 20px);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--color-osso);
+    font-size: clamp(0.6875rem, 0.62rem + 0.25vw, 0.875rem);
+    font-weight: 700;
+    letter-spacing: clamp(0.04em, 0.02em + 0.3vw, 0.1em);
+    text-transform: uppercase;
+  }
+  .foto-legenda::before {
+    content: '';
+    width: 16px;
+    height: 3px;
+    background: var(--color-amarelo);
+  }
+  @media (hover: hover) {
+    .foto:hover .foto-img {
+      scale: 1.05;
+      filter: saturate(1.1) contrast(1.08);
+    }
+  }
+}
