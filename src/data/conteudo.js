@@ -40,14 +40,14 @@ export const kids = {
 
 /** Cards do escudo: um acabamento do logo e uma frase que já é do CT. */
 export const escudos = [
-  { card: 'completo', frase: 'Juntos somos mais fortes.' },
-  { card: 'amarelo', frase: 'Mais que lutas, formamos pessoas.' },
-  { card: 'ouro', frase: 'Não tenha pressa, mas não perca tempo.' },
-  { card: 'faixa', frase: 'Uma equipe em constante evolução.' },
-  { card: 'listras', frase: 'Mais que luta, é um estilo de vida.' },
-  { card: 'padrao', frase: 'Disciplina, respeito, evolução, família.' },
-  { card: 'tinta', frase: 'Mais saúde, mais foco, mais oportunidades.' },
-  { card: 'contorno', frase: 'Amizade para a vida, superação para sempre.' },
+  { foto: 'equipe-ct-novo', foco: '50% 55%', frase: 'Juntos somos mais fortes.' },
+  { foto: 'graduacao-kids', foco: '50% 45%', frase: 'Mais que lutas, formamos pessoas.' },
+  { foto: 'graduacao-cerimonia', foco: '50% 40%', frase: 'Não tenha pressa, mas não perca tempo.' },
+  { foto: 'graduacao-azul', foco: '50% 45%', frase: 'Uma equipe em constante evolução.' },
+  { foto: 'professor-fala', foco: '45% 40%', frase: 'Mais que luta, é um estilo de vida.' },
+  { foto: 'graduacao-plateia', foco: '50% 45%', frase: 'Disciplina, respeito, evolução, família.' },
+  { foto: 'cerimonia-tatame', foco: '50% 45%', frase: 'Mais saúde, mais foco, mais oportunidades.' },
+  { foto: 'roda-graduacao', foco: '50% 45%', frase: 'Amizade para a vida, superação para sempre.' },
 ]
 
 /** É uma sequência de verdade, por isso vai numerada no site. */

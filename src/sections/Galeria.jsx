@@ -4,11 +4,11 @@ import { limitar } from '../lib/util'
 import { useVisivel } from '../hooks/useVisivel'
 import { escudos } from '../data/conteudo'
 import { Titulo } from '../components/ui/Titulo'
-import { CardMarca } from '../components/ui/CardMarca'
+import { Simbolo } from '../components/ui/Logo'
 import { IconeChevron } from '../components/ui/Icones'
 
 /**
- * Carrossel em arco com os cards do escudo. A rolagem horizontal é a nativa do navegador (dedo no
+ * Carrossel em arco com as fotos do CT e as frases do escudo. A rolagem horizontal é a nativa do navegador (dedo no
  * celular, trackpad ou arrasto com o mouse no computador); o código só lê a
  * posição e gira cada card conforme a distância dele até o centro.
  */
@@ -162,7 +162,7 @@ export function Galeria() {
       <div className="conteudo gal-topo">
         <div>
           <Titulo className="t-titulo">O escudo do CT</Titulo>
-          <p className="t-corpo">As frases que guiam quem treina aqui, debaixo do mesmo símbolo.</p>
+          <p className="t-corpo">Graduação, tatame cheio e as frases que guiam quem treina aqui.</p>
         </div>
         <div className="gal-controles">
           <p className="gal-conta t-num" aria-live="polite">
@@ -189,7 +189,7 @@ export function Galeria() {
           ref={trilho}
           tabIndex={0}
           role="region"
-          aria-label="Frases do CT Aveia. Use as setas do teclado para passar."
+          aria-label="Fotos e frases do CT Aveia. Use as setas do teclado para passar."
           onKeyDown={(e) => {
             if (e.key === 'ArrowRight') {
               e.preventDefault()
@@ -202,9 +202,20 @@ export function Galeria() {
           }}
         >
           {escudos.map((e, i) => (
-            <div className="gal-item" key={e.card} data-atual={i === atual}>
+            <div className="gal-item" key={e.foto} data-atual={i === atual}>
               <div className="gal-corpo">
-                <CardMarca variante={e.card} frase={e.frase} className="gal-card" />
+                <figure className="gal-card gal-foto">
+                  <img
+                    src={`/img/fotos/${e.foto}.webp`}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    draggable={false}
+                    style={{ objectPosition: e.foco }}
+                  />
+                  <Simbolo className="gal-foto-selo" />
+                  <figcaption className="gal-foto-frase">{e.frase}</figcaption>
+                </figure>
               </div>
             </div>
           ))}

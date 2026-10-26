@@ -828,7 +828,8 @@
     --foco: 0;
     will-change: transform;
   }
-  .gal-card.marca {
+  .gal-card.marca,
+  .gal-card.gal-foto {
     box-shadow:
       inset 0 0 0 1px var(--fio),
       inset 0 1px 0 rgb(255 255 255 / 0.1),
@@ -1587,5 +1588,65 @@
     .mod-card.foto {
       aspect-ratio: 1 / 1;
     }
+  }
+}
+@layer components {
+  /* ---------- Galeria do escudo: foto com a frase ---------- */
+  .gal-foto {
+    position: relative;
+    isolation: isolate;
+    container-type: inline-size;
+    aspect-ratio: 4 / 5;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #0b0b0a;
+  }
+  .gal-foto img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.92) contrast(1.06);
+    scale: calc(1.12 - var(--foco) * 0.12);
+    pointer-events: none;
+  }
+  .gal-foto::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(180deg, rgb(0 0 0 / 0.35), transparent 24%, transparent 44%, rgb(0 0 0 / 0.92)),
+      linear-gradient(0deg, rgb(253 208 3 / calc(var(--foco) * 0.12)), transparent 50%);
+  }
+  .gal-foto-selo {
+    position: absolute;
+    top: 7cqi;
+    left: 7cqi;
+    z-index: 2;
+    width: 13cqi;
+    color: var(--color-amarelo);
+    filter: drop-shadow(0 4px 14px rgb(0 0 0 / 0.5));
+  }
+  .gal-foto-frase {
+    position: absolute;
+    right: 7cqi;
+    bottom: 6.5cqi;
+    left: 7cqi;
+    z-index: 2;
+    padding-top: 4cqi;
+    border-top: 0.9cqi solid var(--color-amarelo);
+    color: var(--color-osso);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 900;
+    font-stretch: 62%;
+    font-size: 10.5cqi;
+    line-height: 0.95;
+    text-transform: uppercase;
+    text-wrap: balance;
+    text-shadow: 0 4px 24px rgb(0 0 0 / 0.5);
   }
 }

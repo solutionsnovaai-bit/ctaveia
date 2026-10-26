@@ -7,8 +7,7 @@ import { useTilt } from '../hooks/useTilt'
 import { modalidades } from '../data/modalidades'
 import { site } from '../data/site'
 import { Titulo } from '../components/ui/Titulo'
-import { CardMarca } from '../components/ui/CardMarca'
-import { Foto } from '../components/ui/Foto'
+import { Carrossel } from '../components/ui/Carrossel'
 import { revelarFotos } from '../lib/revelar'
 import { Botao } from '../components/ui/Botao'
 import { IconeCanal, IconeCheck } from '../components/ui/Icones'
@@ -82,11 +81,7 @@ function Cartao({ modalidade, indice, total }) {
 
       <div className="mod-lado">
         <div className="mod-quadro" ref={quadro}>
-          {modalidade.foto ? (
-            <Foto src={modalidade.foto.src} alt={modalidade.foto.alt} foco={modalidade.foto.foco} className="mod-card mod-foto" />
-          ) : (
-            <CardMarca variante={modalidade.card} className="mod-card" />
-          )}
+          <Carrossel fotos={modalidade.fotos} className="mod-card mod-foto" segundos={3.6 + indice * 0.3} />
         </div>
       </div>
       <span className="mod-apaga" aria-hidden="true" />

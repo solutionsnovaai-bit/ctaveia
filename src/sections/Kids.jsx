@@ -5,7 +5,7 @@ import { horariosDoGrupo } from '../lib/agenda'
 import { useCena } from '../hooks/useCena'
 import { kids } from '../data/conteudo'
 import { Titulo } from '../components/ui/Titulo'
-import { Foto } from '../components/ui/Foto'
+import { Carrossel } from '../components/ui/Carrossel'
 import { revelarFotos } from '../lib/revelar'
 import { Botao } from '../components/ui/Botao'
 import { IconeCanal, IconeRelogio } from '../components/ui/Icones'
@@ -43,11 +43,13 @@ export function Kids() {
   return (
     <section id="kids" className="kids" ref={raiz}>
       <div className="conteudo kids-grade">
-        <Foto
-          src="kids-professor"
-          alt="Professor faixa preta ensinando um aluno do Projeto Kids no tatame"
+        <Carrossel
+          fotos={[
+            { src: 'kids-professor', alt: 'Professor faixa preta ensinando um aluno do Projeto Kids no tatame', foco: '55% 55%' },
+            { src: 'faixas-pro-alto', alt: 'Crianças do Projeto Kids jogando as faixas para o alto na graduação', foco: '50% 40%' },
+            { src: 'graduacao-rola', alt: 'Crianças treinando jiu-jítsu no tatame durante a graduação', foco: '50% 50%' },
+          ]}
           legenda="Projeto Kids"
-          foco="55% 55%"
           className="kids-card"
         />
 
