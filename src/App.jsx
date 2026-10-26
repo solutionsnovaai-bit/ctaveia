@@ -14,6 +14,7 @@ import { Modalidades } from './sections/Modalidades'
 import { Horarios } from './sections/Horarios'
 import { Kids } from './sections/Kids'
 import { Galeria } from './sections/Galeria'
+import { Fotos } from './sections/Fotos'
 import { Valores } from './sections/Valores'
 import { PrimeiraAula } from './sections/PrimeiraAula'
 import { Local } from './sections/Local'
@@ -50,6 +51,7 @@ export default function App() {
         <Modalidades />
         <Horarios />
         <Kids />
+        <Fotos />
         <Galeria />
         <Valores />
         <PrimeiraAula />
