@@ -401,53 +401,31 @@
   }
 }
 @layer components {
-  /* ---------- Carrossel de fotos (barrinhas de story) ---------- */
-  .carrossel {
-    cursor: pointer;
-    user-select: none;
+  /* ---------- Carrossel: faixa de fotos que passa sem parar ---------- */
+  .carrossel .foto-mascara {
+    container-type: inline-size;
+  }
+  .car-trilho {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    gap: 2.2cqi;
+    height: 100%;
+    will-change: transform;
   }
   .car-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
+    flex: 0 0 auto;
+    width: 84cqi;
     height: 100%;
     object-fit: cover;
-    will-change: clip-path, transform;
+    border-radius: 3cqi;
   }
-  /* sombra no topo para as barrinhas aparecerem em qualquer foto */
-  .carrossel .foto-mascara::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    z-index: 1;
-    height: 26%;
-    background: linear-gradient(180deg, rgb(0 0 0 / 0.5), transparent);
-    pointer-events: none;
+  .carrossel[data-varias='false'] .car-slide {
+    width: 100cqi;
+    border-radius: 0;
   }
   .carrossel .foto-mascara::after {
     z-index: 1;
-  }
-  .car-barras {
-    position: absolute;
-    top: clamp(12px, 1.4vw, 18px);
-    right: clamp(12px, 1.4vw, 18px);
-    left: clamp(12px, 1.4vw, 18px);
-    z-index: 2;
-    display: flex;
-    gap: 5px;
-  }
-  .car-barra {
-    flex: 1;
-    height: 3px;
-    overflow: hidden;
-    border-radius: 3px;
-    background: rgb(255 255 255 / 0.3);
-  }
-  .car-barra-cheia {
-    display: block;
-    height: 100%;
-    background: var(--color-amarelo);
-    transform: scaleX(0);
-    transform-origin: 0 50%;
   }
 }

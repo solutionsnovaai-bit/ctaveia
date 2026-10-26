@@ -11,14 +11,23 @@ import { IconeChevron } from '../components/ui/Icones'
  * Carrossel em arco com as fotos do CT e as frases do escudo. A rolagem horizontal é a nativa do navegador (dedo no
  * celular, trackpad ou arrasto com o mouse no computador); o código só lê a
  * posição e gira cada card conforme a distância dele até o centro.
+ * Sozinho, ele vai passando sem parar. A lista vem três vezes para a volta
+ * emendar; quando a pessoa mexe, ele espera um pouco e volta a andar.
  */
+const N = escudos.length
+const cards = [...escudos, ...escudos, ...escudos]
+
 export function Galeria() {
   const raiz = useRef(null)
   const trilho = useRef(null)
   const cursor = useRef(null)
   const visivel = useVisivel(raiz, '100px')
-  const [atual, setAtual] = useState(1)
+  const [atual, setAtual] = useState(N + 1)
   const posicionado = useRef(false)
+  const pausaAte = useRef(0)
+  const segurar = (ms = 3500) => {
+    pausaAte.current = performance.now() + ms
+  }
 
   // Giro 3D de cada card conforme a posição.
   useEffect(() => {
@@ -54,10 +63,10 @@ export function Galeria() {
     const pedir = () => {
       if (!quadro) quadro = requestAnimationFrame(pintar)
     }
-    // Na primeira vez, começa no segundo card: assim já tem card dos dois lados.
-    if (!posicionado.current && itens[1]) {
+    // Na primeira vez, começa no segundo card da cópia do meio: tem card dos dois lados.
+    if (!posicionado.current && itens[N + 1]) {
       posicionado.current = true
-      el.scrollLeft = itens[1].offsetLeft + itens[1].offsetWidth / 2 - el.clientWidth / 2
+      el.scrollLeft = itens[N + 1].offsetLeft + itens[N + 1].offsetWidth / 2 - el.clientWidth / 2
     }
     pintar()
     el.addEventListener('scroll', pedir, { passive: true })
@@ -66,6 +75,51 @@ export function Galeria() {
       cancelAnimationFrame(quadro)
       el.removeEventListener('scroll', pedir)
       window.removeEventListener('resize', pedir)
+    }
+  }, [visivel])
+
+  // Passando sozinho. Para enquanto a pessoa arrasta, rola ou usa as setas.
+  useEffect(() => {
+    const el = trilho.current
+    if (!el || !visivel || movimentoReduzido()) return undefined
+    let quadro = 0
+    let antes = performance.now()
+    let pos = el.scrollLeft
+
+    const passo = (agora) => {
+      quadro = requestAnimationFrame(passo)
+      const dt = Math.min(0.05, (agora - antes) / 1000)
+      antes = agora
+      if (agora < pausaAte.current || el.dataset.arrastando) {
+        delete el.dataset.auto
+        pos = el.scrollLeft
+        return
+      }
+      el.dataset.auto = 'sim'
+      if (Math.abs(el.scrollLeft - pos) > 2) pos = el.scrollLeft
+      const itens = el.querySelectorAll('.gal-item')
+      const volta = itens[N].offsetLeft - itens[0].offsetLeft
+      const centro = itens[N].offsetLeft + itens[N].offsetWidth / 2 - el.clientWidth / 2
+      pos += (el.clientWidth < 700 ? 60 : 90) * dt
+      if (pos >= centro + volta / 2) pos -= volta
+      if (pos < centro - volta / 2) pos += volta
+      el.scrollLeft = pos
+    }
+    quadro = requestAnimationFrame(passo)
+
+    const parar = () => segurar()
+    const opcao = { passive: true }
+    el.addEventListener('pointerdown', parar, opcao)
+    el.addEventListener('wheel', parar, opcao)
+    el.addEventListener('touchstart', parar, opcao)
+    el.addEventListener('keydown', parar)
+    return () => {
+      cancelAnimationFrame(quadro)
+      delete el.dataset.auto
+      el.removeEventListener('pointerdown', parar, opcao)
+      el.removeEventListener('wheel', parar, opcao)
+      el.removeEventListener('touchstart', parar, opcao)
+      el.removeEventListener('keydown', parar)
     }
   }, [visivel])
 
@@ -139,8 +193,9 @@ export function Galeria() {
 
   const irAte = (indice) => {
     const el = trilho.current
-    const item = el?.querySelectorAll('.gal-item')[limitar(indice, 0, escudos.length - 1)]
+    const item = el?.querySelectorAll('.gal-item')[limitar(indice, 0, cards.length - 1)]
     if (!item) return
+    segurar()
     const x = item.offsetLeft + item.offsetWidth / 2 - el.clientWidth / 2
     if (movimentoReduzido()) el.scrollLeft = x
     else {
@@ -166,16 +221,15 @@ export function Galeria() {
         </div>
         <div className="gal-controles">
           <p className="gal-conta t-num" aria-live="polite">
-            <span>{String(atual + 1).padStart(2, '0')}</span>/{String(escudos.length).padStart(2, '0')}
+            <span>{String((atual % N) + 1).padStart(2, '0')}</span>/{String(N).padStart(2, '0')}
           </p>
-          <button type="button" className="gal-seta" aria-label="Card anterior" disabled={atual === 0} onClick={() => irAte(atual - 1)}>
+          <button type="button" className="gal-seta" aria-label="Card anterior" onClick={() => irAte(atual - 1)}>
             <IconeChevron tamanho={22} style={{ rotate: '180deg' }} />
           </button>
           <button
             type="button"
             className="gal-seta"
             aria-label="Próximo card"
-            disabled={atual === escudos.length - 1}
             onClick={() => irAte(atual + 1)}
           >
             <IconeChevron tamanho={22} />
@@ -201,8 +255,8 @@ export function Galeria() {
             }
           }}
         >
-          {escudos.map((e, i) => (
-            <div className="gal-item" key={e.foto} data-atual={i === atual}>
+          {cards.map((e, i) => (
+            <div className="gal-item" key={`${e.foto}-${i}`} data-atual={i === atual} aria-hidden={i < N || i >= 2 * N || undefined}>
               <div className="gal-corpo">
                 <figure className="gal-card gal-foto">
                   <img

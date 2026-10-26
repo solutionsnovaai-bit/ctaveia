@@ -81,7 +81,7 @@ function Cartao({ modalidade, indice, total }) {
 
       <div className="mod-lado">
         <div className="mod-quadro" ref={quadro}>
-          <Carrossel fotos={modalidade.fotos} className="mod-card mod-foto" segundos={3.6 + indice * 0.3} />
+          <Carrossel fotos={modalidade.fotos} className="mod-card mod-foto" sentido={indice % 2 ? -1 : 1} />
         </div>
       </div>
       <span className="mod-apaga" aria-hidden="true" />

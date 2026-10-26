@@ -819,6 +819,9 @@
     scroll-snap-type: none;
     cursor: grabbing;
   }
+  .gal-trilho[data-auto] {
+    scroll-snap-type: none;
+  }
   .gal-item {
     flex: 0 0 var(--l);
     margin: 0;
