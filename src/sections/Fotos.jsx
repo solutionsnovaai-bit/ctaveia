@@ -6,17 +6,17 @@ import { Titulo } from '../components/ui/Titulo'
 /** Fotos reais do CT: tatame, competição e o Projeto Kids. A ordem monta o mosaico. */
 const fotos = [
   { src: 'familia-completa', alt: 'Alunos adultos e crianças do CT Aveia reunidos no tatame', legenda: 'Uma família só', forma: 'alta' },
-  { src: 'podio-mundial', alt: 'Atleta do CT Aveia no lugar mais alto do pódio do Mundial', legenda: 'Ouro no Mundial', forma: 'larga' },
+  { src: 'podio-mundial', alt: 'Atleta do CT Aveia no lugar mais alto do pódio do Mundial', legenda: 'Ouro no Mundial', forma: 'alta', foco: '50% 20%' },
   { src: 'vitoria-nogi', alt: 'Atleta do CT Aveia com o braço erguido pelo árbitro após vencer a luta', legenda: 'Braço erguido' },
-  { src: 'medalha', alt: 'Atleta do CT Aveia sorrindo com a medalha do campeonato', legenda: 'Medalha no peito' },
+  { src: 'medalha', alt: 'Atleta do CT Aveia sorrindo com a medalha do campeonato', legenda: 'Medalha no peito', foco: '50% 25%' },
   { src: 'kids-professor', alt: 'Professor faixa preta ensinando um aluno do Projeto Kids', legenda: 'Projeto Kids', forma: 'alta' },
   { src: 'muay-thai', alt: 'Turma de muay thai e boxe em posição de guarda', legenda: 'Muay thai e boxe', forma: 'larga' },
-  { src: 'equipe-faixas', alt: 'Faixas graduadas do CT Aveia em frente ao mural da academia', legenda: 'As faixas da casa' },
+  { src: 'equipe-faixas', alt: 'Faixas graduadas do CT Aveia em frente ao mural da academia', legenda: 'As faixas da casa', forma: 'larga' },
   { src: 'raca', alt: 'Atleta do CT Aveia comemorando depois da luta', legenda: 'Raça' },
   { src: 'kids-dupla', alt: 'Duas alunas do Projeto Kids sentadas no tatame', legenda: 'Pequenas guerreiras', forma: 'larga' },
   { src: 'formacao-tatame', alt: 'Alunos do CT Aveia em fila no início do treino', legenda: 'Começo de treino', forma: 'alta' },
-  { src: 'torcida', alt: 'Equipe do CT Aveia comemorando em campeonato', legenda: 'A equipe junto' },
-  { src: 'kids-faixa-branca', alt: 'Aluno do Projeto Kids de quimono azul e faixa branca', legenda: 'Primeira faixa' },
+  { src: 'torcida', alt: 'Equipe do CT Aveia comemorando em campeonato', legenda: 'A equipe junto', forma: 'larga' },
+  { src: 'kids-faixa-branca', alt: 'Aluno do Projeto Kids de quimono azul e faixa branca', legenda: 'Primeira faixa', foco: '50% 15%' },
 ]
 
 export function Fotos() {
@@ -56,7 +56,7 @@ export function Fotos() {
           {fotos.map((f) => (
             <li key={f.src} className="ft-item" data-forma={f.forma || 'normal'}>
               <figure>
-                <img src={`/img/fotos/${f.src}.webp`} alt={f.alt} loading="lazy" decoding="async" />
+                <img src={`/img/fotos/${f.src}.webp`} alt={f.alt} loading="lazy" decoding="async" style={f.foco ? { objectPosition: f.foco } : undefined} />
                 <figcaption>{f.legenda}</figcaption>
               </figure>
             </li>
